@@ -25,6 +25,11 @@ Source control is the baseline. Inspect blame, commits, PR descriptions, review
 threads, linked issues, tests, and nearby comments. Search for the symbol, user-
 facing term, task ID, PR URL, error text, and earlier names when needed.
 
+Search outward from the decision date. Prefer evidence written by the people
+responsible for the decision and close to the time it was made. Treat later
+summaries as pointers back to primary records unless they explicitly document a
+later change in rationale.
+
 Then choose other evidence sources based on the question and the tools actually
 available. Do not pretend that an unavailable connector was searched. Do not
 install a plugin, connect an account, or request broad new access merely to make
@@ -68,3 +73,11 @@ If the user plans to change the code, finish with a short constraint set:
 - change: assumptions the current request intentionally replaces
 - avoid: rejected approaches whose failure still applies
 - risk: unresolved facts to verify before implementation
+
+## Completion criterion
+
+The investigation is complete when the current behavior and introduction point
+are established, the strongest available primary evidence has been checked,
+each conclusion has a confidence level, and material contradictions or missing
+records are visible in the answer. Stop when further searches would only repeat
+the same source class without changing confidence.

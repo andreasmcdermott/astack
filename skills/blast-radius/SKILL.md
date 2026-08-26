@@ -47,3 +47,10 @@ result. Then list confirmed risks, cleared risks, and the cheapest remaining
 pre-merge check. Give each risk a concrete failure mode, evidence location,
 likelihood, and impact. Omit speculative possibilities that survived no contact
 with the code.
+
+## Completion criterion
+
+The investigation is complete when the affected contracts and consumers have
+been traced, every stated safety hinge is either proved with executable evidence
+or explicitly marked unproven, and the remaining risk has a concrete check or
+owner. A longer list of possible risks is not a substitute for this evidence.

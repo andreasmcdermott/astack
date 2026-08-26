@@ -42,6 +42,12 @@ For placement questions, compare the proposed owner with existing dependency
 direction and data ownership. "This file is nearby" is not an architectural
 reason.
 
+Prefer interfaces that hide a meaningful implementation choice and expose a
+small, stable contract. When explaining a module boundary, say what complexity
+the boundary contains, which assumptions cross it, and whether callers must
+understand the internals to use it correctly. A large file is not necessarily a
+deep module, and a small file is not necessarily a useful abstraction.
+
 ## Explain the model
 
 Lead with the smallest useful summary. Then build the picture in layers:
@@ -57,3 +63,10 @@ should inspect next. Separate observed behavior from interpretation.
 
 If the user asks why the system has this shape, invoke `why` for that part rather
 than guessing from the implementation.
+
+## Completion criterion
+
+The explanation is complete when the reader can identify the owner, trace one
+representative path from entry to observable result, describe the key state or
+invariant, and predict the important failure behavior without reopening every
+file inspected during discovery.

@@ -60,6 +60,16 @@ and harnesses drop both halves of a name collision. Override the location with
 
 ## Skills
 
+- `diagnosing-bugs` builds a repeatable evidence loop and tests falsifiable
+  hypotheses without assuming permission to fix the implementation.
+- `code-review` performs an ordinary defect-first review across specification,
+  runtime, and repository-specific axes.
+- `tdd` implements one behavioral slice at a time with red-green-refactor
+  evidence and stable tests.
+- `resolving-merge-conflicts` reconciles both sides' intent and verifies the
+  completed Git operation.
+- `writing-for-agents` sharpens routing, context pointers, source-of-truth
+  guidance, and completion criteria in agent-facing instructions.
 - `recall` reconstructs the live state of work being resumed from another
   thread or session.
 - `interrogate` runs an independent, defect-first review panel and judges the
@@ -79,3 +89,12 @@ capability discovery and optional bb-native coordination. This repository is a
 fork, not a subscription, so upstream changes do not arrive automatically. See
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for attribution and license
 terms.
+
+The `diagnosing-bugs`, `code-review`, `tdd`, `resolving-merge-conflicts`, and
+`writing-for-agents` skills are adapted from
+[Matt Pocock's skills library](https://github.com/mattpocock/skills) at revision
+`6654f6b60cd9d5be8b54c6fafe44346dabeb3b76`. They retain the useful workflow
+ideas while replacing project-specific issue tracking, mandatory checkpoints,
+and fixed delegation assumptions with portable behavior. Lessons from that
+library also informed completion criteria and evidence guidance in several
+existing skills.

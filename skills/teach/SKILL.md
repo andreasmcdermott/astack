@@ -8,6 +8,10 @@ description: Teach a code change, subsystem, or technical decision so the user c
 Help the user build a reusable mental model. A summary tells them the answer;
 teaching should let them predict what happens in a new case.
 
+Anchor the lesson to what the user is trying to do: operate the system, change
+it safely, debug it, review it, or make a design decision. The same subsystem
+needs a different explanation for each purpose.
+
 ## Build the source material
 
 Use `how` to establish current behavior and ownership. Use `why` when history,
@@ -44,3 +48,10 @@ quiz.
 
 Point to the few source files, commits, tasks, or documents that best reinforce
 the model. Keep uncertain rationale marked as uncertain.
+
+## Completion criterion
+
+The lesson is complete when the user has a compact model tied to their purpose,
+can trace one concrete example, can state the governing invariant or tradeoff,
+and has a prediction they can apply to a new case. More background is optional,
+not required for completion.

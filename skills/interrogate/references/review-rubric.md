@@ -3,7 +3,11 @@
 Review the change against its stated intent. Report only defects that the author
 would probably fix before merge.
 
-## Correctness
+Use these as distinct reviewer axes when a panel is available. Each reviewer
+should go deep on one axis while remaining free to report a severe defect found
+outside it.
+
+## Runtime correctness
 
 - Trace state transitions and error paths, including partial failure and retry.
 - Check boundary values, empty inputs, ordering, time, concurrency, and stale
@@ -13,7 +17,7 @@ would probably fix before merge.
 - Check that new branches preserve existing behavior outside the requested
   change.
 
-## Contracts and integration
+## Specification, contracts, and integration
 
 - Follow changed types and wire shapes through every consumer, including other
   languages or persisted data when applicable.
@@ -30,6 +34,14 @@ would probably fix before merge.
   user-visible contract.
 - Do not demand a new test when the repository has no practical test path. Ask
   for the closest executable verification instead.
+
+## Repository-specific defect risks
+
+- Read applicable repository instructions and established patterns near the
+  change.
+- Report a deviation only when it creates incorrect behavior, incompatible
+  architecture, an unsafe migration, or a likely maintenance failure.
+- Exclude formatting, naming, and preference nits without a substantive effect.
 
 ## Finding standard
 

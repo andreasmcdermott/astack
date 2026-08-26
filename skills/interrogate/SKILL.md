@@ -28,7 +28,9 @@ Use independent reviewers when the environment supports delegation. Two or
 three reviewers are usually enough. Add another only for a genuinely distinct
 model family or specialized code path.
 
-- Give every reviewer the same target, intent statement, and rubric.
+- Give every reviewer the same target and intent statement, but assign a
+  distinct review axis from the rubric: specification fidelity, runtime and
+  integration correctness, or repository-specific defect risks.
 - Ask for read-only review. Reviewers report findings and do not edit files.
 - Prefer different model families when the harness supports model choice.
 - In bb, read the `bb-cli` skill before creating cross-provider threads. Reuse
@@ -37,8 +39,9 @@ model family or specialized code path.
 - If delegation is unavailable or would cost more than the review warrants,
   perform one rigorous review and disclose that there was no independent panel.
 
-Do not assign personas that manufacture disagreement. Model independence is
-enough.
+Do not assign personas that manufacture disagreement. The axes should divide
+real verification work, while independent models or contexts reduce correlated
+blind spots.
 
 ## Judge the findings
 

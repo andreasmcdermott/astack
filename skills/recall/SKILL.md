@@ -43,6 +43,11 @@ Check the artifacts that can make an old handoff stale:
 - running commands, terminals, generated artifacts, or local files mentioned
   in the handoff
 
+Reference existing artifacts in place. Do not paste large diffs, logs, plans,
+or prior summaries into a new document merely to preserve them. Extract only
+the decisions and state needed to resume, then link to the authoritative
+artifact.
+
 Do not mutate these systems during recall. The user asked for context, not for
 the work to be advanced.
 
@@ -58,3 +63,15 @@ Lead with the current state, followed by:
 
 Cite thread IDs, PRs, tasks, commits, and file paths. Separate confirmed live
 state from statements found only in an older conversation.
+
+Recommend a next skill only when it matches the recovered state: `how` for a
+runtime model, `why` for rationale, `diagnosing-bugs` for an unresolved symptom,
+`code-review` for an ordinary review, or `interrogate` for explicit adversarial
+review.
+
+## Completion criterion
+
+Recall is complete when the user can resume from one verified context capsule:
+the live state is reconciled with the handoff, authoritative artifacts are
+linked rather than duplicated, and the next concrete action or decision is
+clear. Do not advance that action during recall.
