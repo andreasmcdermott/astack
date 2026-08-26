@@ -60,7 +60,22 @@ and harnesses drop both halves of a name collision. Override the location with
 
 ## Skills
 
-- `unslop` cuts AI tells from writing. Copied from
-  [cursor/plugins](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md)
-  at the `main` revision of 2026-08-26. This is a fork, not a subscription, so
-  local edits stick and upstream changes do not arrive on their own.
+- `recall` reconstructs the live state of work being resumed from another
+  thread or session.
+- `interrogate` runs an independent, defect-first review panel and judges the
+  findings.
+- `blast-radius` traces hidden contracts outside a diff and proves its key
+  safety assumption.
+- `how` explains runtime flow, data ownership, boundaries, and failure paths.
+- `why` recovers design rationale from code history and other available records.
+- `teach` combines how and why into a layered mental model.
+- `unslop` cuts AI tells from writing.
+
+These skills are adapted from
+[pstack](https://github.com/cursor/plugins/tree/main/pstack) at revision
+`bdf7aa355337897f167153e05069aca505dae17c`. The workflow skills replace
+Cursor-specific transcript paths, model IDs, and `Task` calls with portable
+capability discovery and optional bb-native coordination. This repository is a
+fork, not a subscription, so upstream changes do not arrive automatically. See
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for attribution and license
+terms.
