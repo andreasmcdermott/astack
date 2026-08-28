@@ -1,0 +1,8 @@
+interface:
+  display_name: "Senior Engineer Orchestrator"
+  short_description: "Run explicit senior-led multi-agent orchestration"
+  default_prompt: "Use the senior-engineer-orchestrator skill for this task."
+policy:
+  products:
+    - CODEX
+  allow_implicit_invocation: false
