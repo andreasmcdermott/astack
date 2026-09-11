@@ -88,7 +88,20 @@ Read applicable repository instructions and inspect the relevant code, tests,
 interfaces, and nearby patterns. Check the worktree so existing user changes are
 preserved. Stop exploring when there is enough evidence to choose a design.
 
+Before settling anything, verify the request's premise against the code. When
+the work comes from a story, ticket, or PR description, treat its claims about
+current behavior as hypotheses: find the code path or reproduce the bug, confirm
+named files and functions exist and behave as stated, trace the requested change
+to its stated goal, and check for a test, invariant, or ADR that the request
+contradicts. If the code disproves the request, stop and report the evidence
+instead of planning around it. A faithful implementation of a wrong requirement
+is the most expensive outcome this workflow can produce. Checklist and examples
+in [../premise-check/SKILL.md](../premise-check/SKILL.md).
+
 Before delegation, define:
+
+- the premise result: verified with what was checked, or the assumption being
+  carried;
 
 - the behavior that must become true;
 - senior-owned decisions already settled;
@@ -126,7 +139,8 @@ Adapt this packet rather than filling irrelevant sections:
 - `[targeted command or check]`
 
 ## Escalate if
-- a senior-owned decision, material scope change, or conflicting repository fact appears.
+- a senior-owned decision, material scope change, or conflicting repository fact appears;
+- the code contradicts a claim in this assignment or the underlying story. Report the evidence; do not build a workaround.
 ```
 
 Tell workers not to spawn agents, broaden scope, overwrite unrelated changes, or
@@ -140,11 +154,16 @@ checks while working and the strongest practical final checks for its scope.
 
 The worker should stop and escalate with concise evidence when the plan depends on
 a false assumption or a senior-owned decision becomes necessary. It should not
-patch around an invalid design.
+patch around an invalid design. Satisfying every acceptance criterion is not a
+reason to continue once the worker has evidence that the criteria describe the
+wrong change.
 
 Require a compact handoff:
 
 ```markdown
+## Premise
+verified — [what was checked] | assumed — [assumption] | disputed — [evidence]
+
 ## Changed
 - [Material behavior or implementation change]
 
@@ -164,8 +183,11 @@ not verification.
 ### 4. Review proportionally
 
 The lead must inspect the actual diff and worktree state, compare them with the
-accepted contract, and assess the verification evidence. Do a lightweight gate
-even for mechanical work. Review normal and high-impact changes for correctness,
+accepted contract, and assess the verification evidence. Compare the contract
+with the code as well as the diff with the contract: if the worker's evidence
+or the diff shows the original request was wrong, the review outcome is a
+revised contract or an escalation to the user, not an approved implementation.
+Do a lightweight gate even for mechanical work. Review normal and high-impact changes for correctness,
 edge cases, architecture, regressions, security, compatibility, unnecessary
 complexity, and meaningful test coverage.
 
@@ -189,12 +211,17 @@ work from the mechanical tier to the implementation tier to the lead. Promote
 immediately when new evidence raises uncertainty or consequence.
 
 Ask the user only for a genuine product or external requirement that cannot be
-derived from the request, repository, or established conventions.
+derived from the request, repository, or established conventions, or when the
+repository disproves the request itself. A disproven premise is always worth
+the interruption; building the requested change anyway is not an option.
 
 ## Completion gate
 
 Report completion only when:
 
+- the premise was verified against the code, or the carried assumption is
+  stated; a disputed premise blocks completion until the user or lead resolves
+  it;
 - the requested behavior and acceptance criteria are satisfied;
 - the lead inspected the resulting changes;
 - relevant checks passed, or each missing check and its residual risk is stated;

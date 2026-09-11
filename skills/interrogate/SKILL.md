@@ -18,6 +18,12 @@ task, PR description, and nearby tests to state the intended behavior in a few
 sentences. Reviewers need the intent because code can be internally consistent
 and still solve the wrong problem.
 
+Treat the intent as a claim to test, not a fixed point. Before launching
+reviewers, check the premise yourself using the first axis of the rubric: does
+the described current behavior exist, and does the requested change reach the
+stated goal? If the code disproves the requirement, that is the lead finding
+regardless of what the panel reports about the implementation.
+
 Preserve the user's review boundary. If they asked to ignore stylistic nits,
 exclude them. Do not post comments, approve a PR, or change code unless the user
 also asked for that action.
@@ -29,8 +35,10 @@ three reviewers are usually enough. Add another only for a genuinely distinct
 model family or specialized code path.
 
 - Give every reviewer the same target and intent statement, but assign a
-  distinct review axis from the rubric: specification fidelity, runtime and
-  integration correctness, or repository-specific defect risks.
+  distinct review axis from the rubric: premise validity, specification
+  fidelity, runtime and integration correctness, or repository-specific defect
+  risks. Tell every reviewer that the intent statement may be wrong and that a
+  contradiction between the requirement and the code should be reported.
 - Ask for read-only review. Reviewers report findings and do not edit files.
 - Prefer different model families when the harness supports model choice.
 - In bb, read the `bb-cli` skill before creating cross-provider threads. Reuse
@@ -64,6 +72,7 @@ For every accepted finding, require:
 ## Report
 
 List findings in severity order. Keep the list empty when no actionable defect
-survives judgment. After the findings, briefly name what reviewers examined,
-where they agreed or disagreed, and any review gap caused by unavailable tools
-or incomplete access.
+survives judgment. After the findings, state the premise result in one line
+(verified, assumed, or disputed, with what was checked), then briefly name what
+reviewers examined, where they agreed or disagreed, and any review gap caused
+by unavailable tools or incomplete access.
