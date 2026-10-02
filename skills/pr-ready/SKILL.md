@@ -65,6 +65,9 @@ Apply the same priorities as the `pr-description` skill, adapted for a PR that
 does not exist yet:
 
 - Use an outcome-focused title that is specific but short.
+- When the work belongs to a Shortcut story, start the title with its ID in
+  brackets, such as `[sc-123] Retry failed webhook deliveries`. Take the ID from
+  the conversation, branch name, or commits.
 - Keep the body under 100 words. Most changes need 30 to 60.
 - Lead with one or two sentences saying what changed and why it matters.
 - Add bullets when they carry facts those sentences do not, such as a second
@@ -74,7 +77,8 @@ does not exist yet:
   details.
 - Use direct, neutral language. Omit filler such as "This PR" and "in order to."
 - Do not mention Shortcut stories, IDs, titles, links, ticket metadata, or
-  branch-name tracking references.
+  branch-name tracking references in the body. The title prefix is the only
+  story reference.
 - Do not add a testing section unless the user asks for one. Never claim a test
   ran without evidence.
 
