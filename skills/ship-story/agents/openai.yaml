@@ -1,0 +1,8 @@
+interface:
+  display_name: "Ship Story"
+  short_description: "Implement a Shortcut Story and gate the PR on independent review rounds"
+  default_prompt: "Use the ship-story skill for this Story."
+policy:
+  products:
+    - CODEX
+  allow_implicit_invocation: false
