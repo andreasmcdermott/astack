@@ -11,6 +11,16 @@ approval or request for changes, editing code, and creating follow-up issues nee
 an explicit user request. Carry forward authorization already given in the
 conversation; do not ask again.
 
+## Name a new bb thread
+
+When running in bb, if the thread's first user message contains only
+`/pr <positive PR number>` after trimming whitespace, set its title to
+`PR <number>`. For example, `/pr 123` becomes `PR 123`. Run
+`bb thread update --self --title 'PR 123'` with the supplied number and verify
+the returned title. Apply this only to the opening message with a bare number;
+leave titles unchanged for later invocations, URLs, repository-qualified
+arguments, or messages containing additional instructions.
+
 ## Resolve the target
 
 1. Accept a positive PR number, `#123`, a GitHub PR URL, or a number with an
