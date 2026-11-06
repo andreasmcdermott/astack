@@ -11,6 +11,21 @@ enough implementation to make it pass.
 Read [references/test-quality.md](references/test-quality.md) when choosing the
 test seam or deciding whether mocks are justified.
 
+## Shortcut backend: run tests in CI
+
+Andreas does not run the Shortcut monorepo backend locally. For work under
+`monorepo/backend/`, write regression tests before the fix, implement the change,
+and use CI to execute the tests. Run available local static checks such as
+clj-kondo and `git diff --check`. Do not request or start an nREPL, run backend
+JVM tests locally, or block implementation because no local REPL is running.
+This user preference overrides repository instructions requiring local nREPL
+verification unless Andreas explicitly requests a local run.
+
+Report which checks ran and whether CI is pending or passed. Until CI runs,
+describe the regression tests as written but unexecuted; do not claim an observed
+red-green cycle or passing tests. A missing local REPL is not a reason to release
+a story or stop authorized implementation.
+
 ## Choose one vertical slice
 
 State the behavior in terms of inputs, observable outputs, state changes, or

@@ -5,9 +5,11 @@ description: Safely finish and clean up a completed bb task or story. Use when t
 
 # Cleanup task
 
-Finish the current bb task without losing work. Treat branch deletion and bb's
-managed-worktree retirement as destructive: inspect first, show one exact
-cleanup preview, and obtain confirmation before changing Git state or archiving.
+Finish the current bb task without losing work. Inspect first and show the exact
+cleanup targets. Proceed without confirmation only for the verified, merged
+session cleanup defined below. Ask for confirmation when cleanup affects other
+branches, worktrees, or chats outside that verified task scope, or adds actions
+beyond it.
 
 ## Scope
 
@@ -49,24 +51,75 @@ Do not clean an environment when any of these is true:
 - an agent, terminal, or queued operation is still actively using it;
 - commits exist only on the local branch or their preservation cannot be
   verified;
-- a pull request is open, closed-unmerged, or has unknown state and the branch
-  is not already contained in the chosen base;
+- an associated pull request is open, closed-unmerged, has unknown state, or
+  was merged into a branch other than `main`;
 - the candidate is the default/protected branch, the primary checkout, or a
   branch checked out by an unrelated worktree;
 - the branch, base, remote, environment, or thread scope is ambiguous.
 
-A merged pull request is sufficient preservation evidence even after a squash
-or rebase merge. Without a merged PR, require the branch tip to be an ancestor
-of the chosen local or remote base. Merely having pushed a feature branch is not
-proof that a completed task is merged; retain it unless the user explicitly
-chooses a discard workflow.
+Verify preservation against the correct repository's current remote `main`.
+Use fresh remote/API evidence, refreshing relevant Git refs when needed for
+ancestry checks. Stale local refs or a missing remote feature branch do not
+prove a merge.
+
+A PR reported as merged into `main` proves preservation of its merged head,
+including squash or rebase merges, only after verifying that its resulting
+merge commit remains in current remote `main`. Match the local branch tip and,
+if it still exists, the current remote feature branch tip to that head. Any
+different tip must independently be proven to be an ancestor of current remote `main`.
+A previously merged PR does not authorize deleting commits added afterward.
+Without an associated PR, require the local tip and any existing remote feature
+branch tip to be ancestors of current remote `main`. If any associated PR is
+unmerged or any merge evidence is missing, ambiguous, or contradictory, decline
+cleanup and report the blocker.
 
 Do not reinterpret `/cleanup-task` as permission to discard unmerged work. If
 the audit finds unpreserved work, stop with a compact blocker report. Offer a
 separate, explicit discard confirmation naming the commits/files only if the
 user says that work should be thrown away.
 
-## Preview and confirmation
+## Confirmation-free session cleanup
+
+Invoking cleanup authorizes proceeding without another confirmation only when
+all audit checks pass and the complete effect is exactly:
+
+- delete the current session's local feature branch;
+- retire the current session's bb-managed worktree;
+- archive the current chat thread and its expected skill-created descendants.
+
+Classify every child thread and hidden source fork before archiving. A descendant
+is expected when bb's tree and the task history or originating skill invocation
+show it was created by a skill workflow for this task, such as a reviewer or
+implementation worker, and it has not been repurposed for independent work.
+A parent link or matching title alone is insufficient evidence.
+
+Reviewers created by `/ship-story` for this Story are expected descendants,
+including reviewers from every review round and their hidden source forks.
+Verify their origin from bb's tree and the recorded reviewer launches or review
+packets, and check that they have not taken on independent work. Their number,
+review round, or model does not add a confirmation requirement.
+
+If every descendant is expected and passes the activity and preservation audits
+above, include them in the preview and proceed without confirmation. Unexpected
+or unverified descendants require the confirmation path below.
+
+Verify that no live thread outside the cleanup tree shares the environment and
+that no other worktree uses the branch. Detaching this worktree and closing the
+cleanup tree's idle terminals as part of archiving are implementation steps
+within this scope. Expected descendants do not waive any audit or authorize
+removing additional branches or retiring additional worktrees without confirmation.
+
+Leave the remote branch intact if it still exists. Its existence alone does
+not require confirmation or expand cleanup to remote deletion. Removing a
+remote branch requires an explicit, confirmed preview.
+
+Show a concise statement of the branch, worktree, all chats to archive, why
+each descendant is expected, and current merge evidence, then proceed. Do not
+ask for confirmation or pause for a reply when these conditions hold. Recheck
+them immediately before execution. If scope expands, use the confirmation path
+below; if preservation fails, decline.
+
+## Preview and confirmation for other scopes
 
 Present one concise preview grouped by environment. Name:
 
@@ -77,23 +130,30 @@ Present one concise preview grouped by environment. Name:
 - exact remote branches that still exist and would be deleted;
 - anything retained, with the reason.
 
-Ask for confirmation of those exact targets. Remote branch deletion must be
-visible in this confirmation; do not silently infer consent from a generic
-cleanup request when the preview was not shown.
+If the eligible cleanup differs from the exact session cleanup above, ask for
+confirmation of those targets before any mutation or archive. This includes
+additional branches or worktrees, unexpected or unverified child threads or
+hidden source forks, shared-environment cleanup, and remote branch deletion.
+Expected skill-created descendants in the session cleanup scope above do not
+require confirmation merely because they are child threads or hidden forks.
+Do not ask the user to confirm ordinary cleanup of unmerged or unpreserved work; decline it as described above.
+Include remote deletion only when explicitly requested, and name it in the
+confirmation. Otherwise retain remote branches.
 
 ## Permission handling
 
 Git mutations commonly write through a worktree's `.git` file into repository
-metadata outside the provider's workspace sandbox. Once the user confirms the
-exact preview, treat that confirmation as authorization for the listed Git
-mutations and use the execution tool's permission-escalation mechanism on the
-first attempt. Do not intentionally make a sandboxed attempt merely to discover
-the expected permission denial.
+metadata outside the provider's workspace sandbox. The verified session cleanup
+above is already authorized by the cleanup request. Other scopes become
+authorized when the user confirms the exact preview. Use that authorization
+for the listed Git mutations and the execution tool's permission-escalation
+mechanism on the first attempt. Do not intentionally make a sandboxed attempt
+merely to discover the expected permission denial.
 
 Use a narrow, command-specific escalation request and explain the exact branch
 or remote ref being changed. Do not request full-access mode or a broad shell
 allowlist. If a mutation unexpectedly returns a sandbox/permission denial,
-immediately retry that same already-confirmed command with escalation; do not
+immediately retry that same already-authorized command with escalation; do not
 stop and ask the user to invoke `/cleanup-task` or tell the agent to retry.
 
 A user-facing approval may still be required when the thread uses a mode that
@@ -103,10 +163,12 @@ terminal, helper daemon, alternate Git plumbing command, or indirect script.
 
 ## Execute
 
-Re-run the critical cleanliness, activity, and preservation checks immediately
-after confirmation. If anything changed, stop and show a refreshed preview.
+Re-run the critical cleanliness, activity, preservation, and scope checks
+immediately before execution, including after any required confirmation. If
+anything changed, re-audit. Decline if preservation fails; obtain confirmation
+before proceeding with any expanded scope.
 
-For each confirmed, cleanup-eligible managed worktree branch:
+For each authorized, cleanup-eligible managed worktree branch:
 
 1. Validate the candidate with `git check-ref-format --branch <branch>` and
    ensure it is neither the selected base nor the default branch.
