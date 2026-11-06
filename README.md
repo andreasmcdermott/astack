@@ -98,3 +98,11 @@ ideas while replacing project-specific issue tracking, mandatory checkpoints,
 and fixed delegation assumptions with portable behavior. Lessons from that
 library also informed completion criteria and evidence guidance in several
 existing skills.
+
+## Untangle codebase
+
+`untangle-codebase` is imported unchanged from
+[caldoai/skills](https://github.com/caldoai/skills/tree/f3cf47774975a7d9fca45730babf4ff7ad765ada/skills/untangle-codebase),
+revision `f3cf47774975a7d9fca45730babf4ff7ad765ada`. Invoke it explicitly with
+`/untangle-codebase` to run its codebase refactoring workflow. Its upstream
+MIT license is included in `skills/untangle-codebase/LICENSE`.
