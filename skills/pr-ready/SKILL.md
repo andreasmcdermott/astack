@@ -130,6 +130,21 @@ not add empty decorative sections. Create a new non-draft PR with the resolved
 base, current head branch, title, and body. Re-read the body against the list
 above one last time before creating the PR.
 
+## Attach images and videos
+
+Keep screenshots and recordings made for PR review in a temporary directory
+outside the checkout. Upload them with `gh pr create --attach` alongside
+`--body-file`. Repeat `--attach` for each file. Add descriptive alt text for
+images with `--attach '/tmp/login.png#The login error state'`. For videos,
+pass the file path alone. GitHub CLI appends the uploaded media to the PR body.
+
+If the command reports an upload failure, look up the PR before retrying
+creation. GitHub may have created the PR with some of the attachments.
+Use `gh pr edit <number> --attach <file>` for any missing files once the PR
+exists. Verify the attachments in the remote PR body before reporting success.
+If CLI uploads are unavailable, use a text description and report which media
+could not be attached.
+
 ## Finish
 
 Verify the remote PR points at the expected head and base branches. Report the
